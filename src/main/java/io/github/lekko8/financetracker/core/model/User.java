@@ -1,0 +1,21 @@
+package io.github.lekko8.financetracker.core.model;
+
+import io.github.lekko8.financetracker.core.exception.ValidationException;
+import java.util.Locale;
+
+public record User(String login, String passwordHash) {
+
+    public User {
+        if (login == null || login.isBlank()) {
+            throw new ValidationException("Логин не указан.");
+        }
+        if (passwordHash == null || passwordHash.isBlank()) {
+            throw new ValidationException("Хеш пароля не указан.");
+        }
+        login = login.trim();
+    }
+
+    public static String normalizeLogin(String login) {
+        return login == null ? "" : login.trim().toLowerCase(Locale.ROOT);
+    }
+}
